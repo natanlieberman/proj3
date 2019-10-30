@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <center> -->
+    <div>
+        <textarea id="text" cols="15" rows="2"></textarea>
+    </div>
+    <div>
+        <button onclick="num(1)">1</button>
+        <button onclick="num(2)">2</button>
+        <button onclick="num(3)">3</button>
+        <button onclick="num('*')">*</button>
+    </div>
+    <div>
+        <button onclick="num(4)">4</button>
+        <button onclick="num(5)">5</button>
+        <button onclick="num(6)">6</button>
+        <button onclick="num('/')">/</button>
+    </div>
+    <div>
+        <button onclick="num(7)">7</button>
+        <button onclick="num(8)">8</button>
+        <button onclick="num(9)">9</button>
+        <button onclick="num('+')">+</button>
+    </div>
+    <div>
+        <button onclick="clea()">C</button>
+        <button onclick="num(0)">0</button>
+        <button onclick="cal()">=</button>
+        <button onclick="num('-')">-</button>
+    </div>
+    <div id="hisory"></div>
+    <!-- </center> -->
+    <script>
+    let check = 1
+    let numbers=[];
+    let allnum='';
+    function num(x){
+        // debugger
+        
+        if(typeof x=="number"){
+            document.getElementById('text').innerHTML +=x;
+            allnum +=x
+            check=0
+        }else{
+            if (allnum !=''){
+            numbers.push(parseInt(allnum));
+            allnum=''
+           }
+           if(check == 0){
+            document.getElementById('text').innerHTML +=x;
+            numbers.push(x);
+            check=1
+          }
+        }
+    }
+    function cal(){
+        // debugger
+            numbers.push(parseInt(allnum));
+            allnum=''
+            let locateOperator = 1
+            while (locateOperator > 0){
+                debugger
+                locateOperator = numbers.indexOf('*' ,locateOperator)
+                if(locateOperator > 0){
+                    numbers[locateOperator-1] *= numbers[locateOperator+1]
+                    numbers.splice(locateOperator ,2)
+                }
+            }
+             locateOperator = 1
+            while (locateOperator > 0){
+                locateOperator = numbers.indexOf('/' ,locateOperator)
+                if(locateOperator > 0){
+                    numbers[locateOperator-1] /= numbers[locateOperator+1]
+                    numbers.splice(locateOperator ,2)
+                }
+            }
+             locateOperator = 1
+            while (locateOperator > 0){
+                locateOperator = numbers.indexOf('+' ,locateOperator)
+                if(locateOperator > 0){
+                    numbers[locateOperator-1] += numbers[locateOperator+1]
+                    numbers.splice(locateOperator ,2)
+                }
+            }
+            locateOperator = 1
+            while (locateOperator > 0){
+                locateOperator = numbers.indexOf('-' ,locateOperator)
+                if(locateOperator > 0){
+                    numbers[locateOperator-1] -= numbers[locateOperator+1]
+                    numbers.splice(locateOperator ,2)
+                }
+            }
+            document.getElementById('text').innerHTML +='='+numbers[0];
+            document.getElementById('hisory').innerHTML +=document.getElementById('text').innerHTML + "<br/>";
+       }
+    function clea(){
+        // debugger
+        document.getElementById('text').innerHTML = "";
+        numbers = []
+        allnum = ''
+      }       
+    
+    </script>
+</body>
+</html>
